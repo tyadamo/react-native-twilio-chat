@@ -6,7 +6,7 @@
 //  Copyright © 2016 Facebook. All rights reserved.
 //
 #import <TwilioChatClient/TwilioChatClient.h>
-#import <TwilioChatClient/TCHUserInfo.h>
+#import <TwilioChatClient/TCHUser.h>
 #import <TwilioAccessManager/TwilioAccessManager.h>
 #import <React/RCTConvert.h>
 
@@ -16,8 +16,7 @@
 + (TCHChannelSynchronizationStatus)TCHChannelSynchronizationStatus:(id)json;
 + (TCHChannelType)TCHChannelType:(id)json;
 + (TCHChannelStatus)TCHChannelStatus:(id)json;
-+ (TCHUserInfoUpdate)TCHUserInfoUpdate:(id)json;
-+ (TCHClientSynchronizationStrategy)TCHClientSynchronizationStrategy:(id)json;
++ (TCHUserUpdate)TCHUserUpdate:(id)json;
 + (TCHLogLevel)TCHLogLevel:(id)json;
 + (TCHClientConnectionState)TCHClientConnectionState:(id)json;
 
@@ -26,12 +25,11 @@
 
 + (NSDictionary *)TCHChannel:(TCHChannel *)channel;
 + (NSDictionary *)TCHChannelDescriptor:(TCHChannelDescriptor *)channel;
-+ (NSDictionary *)TCHUserInfo:(TCHUserInfo *)userInfo;
++ (NSDictionary *)TCHUser:(TCHUser *)userInfo;
 + (NSDictionary *)TCHMember:(TCHMember *)member;
 + (NSDictionary *)TCHMessage:(TCHMessage *)message;
 
 + (NSDictionary *)TCHMemberPaginator:(TCHMemberPaginator *)paginator;
-+ (NSDictionary *)TCHChannelPaginator:(TCHChannelPaginator *)paginator;
 + (NSDictionary *)TCHChannelDescriptorPaginator:(TCHChannelDescriptorPaginator *)paginator;
 
 + (NSArray *)TCHChannels:(NSArray<TCHChannel *>*)channels;

@@ -39,8 +39,8 @@ RCT_REMAP_METHOD(getLastConsumedMessageIndex, channelSid:(NSString *)channelSid 
 RCT_REMAP_METHOD(sendMessage, channelSid:(NSString *)channelSid body:(NSString *)body attributes:(NSDictionary<NSString *, id> *)attributes send_message_resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
     [self loadMessagesFromChannelSid:channelSid :^(TCHResult *result, TCHMessages *messages) {
         if (result.isSuccessful) {
-          TCHMessage* message = [messages createMessageWithBody:body];
-          void (^sendListener)(TCHResult * sendResult) = ^(TCHResult *sendResult) {
+          TCHMessageOptions* options = [[TCHMessageOptions alloc] withBody:body];
+          void (^sendListener)(TCHResult * sendResult, TCHMessage * message) = ^(TCHResult *sendResult, TCHMessage * message) {
               if (sendResult.isSuccessful) {
                   resolve(@[@TRUE]);
               }
@@ -49,16 +49,16 @@ RCT_REMAP_METHOD(sendMessage, channelSid:(NSString *)channelSid body:(NSString *
               }
           };
           if (attributes != nil) {
-            [message setAttributes:attributes completion:^(TCHResult *setAttrResult) {
+            [options withAttributes:attributes completion:^(TCHResult *setAttrResult) {
                 if(setAttrResult.isSuccessful) {
-                    [messages sendMessage:message completion:sendListener];
+                    [messages sendMessageWithOptions:options completion:sendListener];
                 } else {
                     reject(@"send-attributed-message-error", @"Error occured while attempting to send attributed message.", setAttrResult.error);
                 }
             }];
           }
           else {
-            [messages sendMessage:message completion:sendListener];
+            [messages sendMessageWithOptions:options completion:sendListener];
           }
         }
         else {

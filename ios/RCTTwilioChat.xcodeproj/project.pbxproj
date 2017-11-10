@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1584D95B29FF8ABF9F1B96C9 /* Pods_RCTTwilioChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB37A215A5339B64FA210381 /* Pods_RCTTwilioChat.framework */; };
 		1D6F099C1DF1EBE200611A19 /* RCTTwilioChatPaginator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D6F099B1DF1EBE200611A19 /* RCTTwilioChatPaginator.m */; };
 		1DAE2D361D086CFD00D3FE06 /* RCTConvert+TwilioChatClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DAE2D2B1D086CFD00D3FE06 /* RCTConvert+TwilioChatClient.m */; };
 		1DAE2D371D086CFD00D3FE06 /* RCTTwilioAccessManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DAE2D2D1D086CFD00D3FE06 /* RCTTwilioAccessManager.m */; };
@@ -44,6 +45,9 @@
 		1DAE2D331D086CFD00D3FE06 /* RCTTwilioChatMembers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTTwilioChatMembers.m; sourceTree = "<group>"; };
 		1DAE2D341D086CFD00D3FE06 /* RCTTwilioChatMessages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTTwilioChatMessages.h; sourceTree = "<group>"; };
 		1DAE2D351D086CFD00D3FE06 /* RCTTwilioChatMessages.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTTwilioChatMessages.m; sourceTree = "<group>"; };
+		48F17EDF58A47CE2AA024C49 /* Pods-RCTTwilioChat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RCTTwilioChat.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RCTTwilioChat/Pods-RCTTwilioChat.debug.xcconfig"; sourceTree = "<group>"; };
+		8E762F3E34A0BDE7BAEAC929 /* Pods-RCTTwilioChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RCTTwilioChat.release.xcconfig"; path = "Pods/Target Support Files/Pods-RCTTwilioChat/Pods-RCTTwilioChat.release.xcconfig"; sourceTree = "<group>"; };
+		DB37A215A5339B64FA210381 /* Pods_RCTTwilioChat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RCTTwilioChat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1584D95B29FF8ABF9F1B96C9 /* Pods_RCTTwilioChat.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -62,6 +67,8 @@
 			children = (
 				1DAE2D201D086CD600D3FE06 /* RCTTwilioChat */,
 				1DAE2D1F1D086CD600D3FE06 /* Products */,
+				1DD26E2ACEA6D7B65C4B005E /* Pods */,
+				A1915409B570B2E086706887 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -94,6 +101,23 @@
 			path = RCTTwilioChat;
 			sourceTree = "<group>";
 		};
+		1DD26E2ACEA6D7B65C4B005E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				48F17EDF58A47CE2AA024C49 /* Pods-RCTTwilioChat.debug.xcconfig */,
+				8E762F3E34A0BDE7BAEAC929 /* Pods-RCTTwilioChat.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		A1915409B570B2E086706887 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DB37A215A5339B64FA210381 /* Pods_RCTTwilioChat.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -101,9 +125,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1DAE2D271D086CD600D3FE06 /* Build configuration list for PBXNativeTarget "RCTTwilioChat" */;
 			buildPhases = (
+				B8328303AC3C665D619ACECC /* [CP] Check Pods Manifest.lock */,
 				1DAE2D1A1D086CD600D3FE06 /* Sources */,
 				1DAE2D1B1D086CD600D3FE06 /* Frameworks */,
 				1DAE2D1C1D086CD600D3FE06 /* CopyFiles */,
+				F661CAD52C0B534280A10E65 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -144,6 +170,39 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		B8328303AC3C665D619ACECC /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		F661CAD52C0B534280A10E65 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RCTTwilioChat/Pods-RCTTwilioChat-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1DAE2D1A1D086CD600D3FE06 /* Sources */ = {
@@ -247,6 +306,7 @@
 		};
 		D2EA9F3D1EC1AEE30040EF5B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 48F17EDF58A47CE2AA024C49 /* Pods-RCTTwilioChat.debug.xcconfig */;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -266,6 +326,7 @@
 		};
 		D2EA9F3E1EC1AEE30040EF5B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8E762F3E34A0BDE7BAEAC929 /* Pods-RCTTwilioChat.release.xcconfig */;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
