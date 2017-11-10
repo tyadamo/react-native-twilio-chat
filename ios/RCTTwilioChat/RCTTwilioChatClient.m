@@ -34,15 +34,13 @@
 RCT_EXPORT_MODULE()
 
 RCT_REMAP_METHOD(createClient, token:(NSString*)token properties:(NSDictionary *)properties resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject){
-    TwilioChatClientProperties *props = nil;
-    if (properties.count > 0) {
-        props = [[TwilioChatClientProperties alloc] init];
-    }
     RCTTwilioChatClient *_client = [RCTTwilioChatClient sharedManager];
-    [TwilioChatClient chatClientWithToken:token properties:props delegate:self completion:^(TCHResult *result, TwilioChatClient *client) {
-        _client.client = client;
+
+    [TwilioChatClient chatClientWithToken:token properties:NULL delegate:self completion:^(TCHResult *result, TwilioChatClient *chatClient) {
+        _client.client = chatClient;
+        NSDictionary* response = [RCTConvert TwilioChatClient:chatClient];
+        resolve(response);
     }];
-    resolve([RCTConvert TwilioChatClient:_client.client]);
 }
 
 RCT_EXPORT_METHOD(updateToken:(NSString *)token) {
@@ -50,7 +48,7 @@ RCT_EXPORT_METHOD(updateToken:(NSString *)token) {
     [[_client client] updateToken:token completion:NULL];
 }
 
-RCT_REMAP_METHOD(userInfo, userInfo_resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+RCT_REMAP_METHOD(user, user_resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
   RCTTwilioChatClient *_client = [RCTTwilioChatClient sharedManager];
   resolve([RCTConvert TCHUser:_client.client.user]);
 }
@@ -118,23 +116,23 @@ RCT_REMAP_METHOD(setAttributes, attributes:(NSDictionary *)attributes attributes
 
 #pragma mark Twilio IP Messaging Client Delegates
 
-- (void)chatClient:(TwilioChatClient *)client connectionStateChanged:(TCHClientConnectionState)state {
+- (void)chatClient:(TwilioChatClient *)client connectionStateUpdated:(TCHClientConnectionState)state {
     [self.bridge.eventDispatcher sendAppEventWithName:@"chatClient:connectionStateChanged"
                                                  body:@(state)];
 }
 
-- (void)chatClient:(TwilioChatClient *)client synchronizationStatusChanged:(TCHClientSynchronizationStatus)status {
+- (void)chatClient:(TwilioChatClient *)client synchronizationStatusUpdated:(TCHClientSynchronizationStatus)status {
   [self.bridge.eventDispatcher sendAppEventWithName:@"chatClient:synchronizationStatusChanged"
                                                body:@(status)];
 }
 
-- (void)chatClient:(TwilioChatClient *)client channelAdded:(TCHChannel *)channel {
-  [self.bridge.eventDispatcher sendAppEventWithName:@"chatClient:channelAdded"
-                                               body: [RCTConvert TCHChannel:channel]];
+- (void)chatClient:(TwilioChatClient *)client channel:(TCHChannel *)channel updated:(TCHChannelUpdate)updated {
+    [self.bridge.eventDispatcher sendAppEventWithName:@"chatClient:channelChanged"
+                                                 body: [RCTConvert TCHChannel:channel]];
 }
 
-- (void)chatClient:(TwilioChatClient *)client channelChanged:(TCHChannel *)channel {
-  [self.bridge.eventDispatcher sendAppEventWithName:@"chatClient:channelChanged"
+- (void)chatClient:(TwilioChatClient *)client channelAdded:(TCHChannel *)channel {
+  [self.bridge.eventDispatcher sendAppEventWithName:@"chatClient:channelAdded"
                                                body: [RCTConvert TCHChannel:channel]];
 }
 
@@ -144,7 +142,7 @@ RCT_REMAP_METHOD(setAttributes, attributes:(NSDictionary *)attributes attributes
 }
 
 
-- (void)chatClient:(TwilioChatClient *)client channel:(TCHChannel *)channel synchronizationStatusChanged:(TCHChannelSynchronizationStatus)status {
+- (void)chatClient:(TwilioChatClient *)client channel:(TCHChannel *)channel synchronizationStatusUpdated:(TCHChannelSynchronizationStatus)status {
   NSString *channelSid;
   if (channel) {
     channelSid = channel.sid;
@@ -159,6 +157,7 @@ RCT_REMAP_METHOD(setAttributes, attributes:(NSDictionary *)attributes attributes
                                                        }];
 }
 
+
 - (void)chatClient:(TwilioChatClient *)client channel:(TCHChannel *)channel memberJoined:(TCHMember *)member {
   [self.bridge.eventDispatcher sendAppEventWithName:@"chatClient:channel:memberJoined"
                                                body: @{
@@ -167,12 +166,12 @@ RCT_REMAP_METHOD(setAttributes, attributes:(NSDictionary *)attributes attributes
                                                        }];
 }
 
-- (void)chatClient:(TwilioChatClient *)client channel:(TCHChannel *)channel memberChanged:(TCHMember *)member {
-  [self.bridge.eventDispatcher sendAppEventWithName:@"chatClient:channel:memberChanged"
-                                               body: @{
-                                                       @"channelSid": channel.sid,
-                                                       @"member": [RCTConvert TCHMember:member]
-                                                       }];
+- (void)chatClient:(TwilioChatClient *)client channel:(TCHChannel *)channel member:(TCHMember *)member updated:(TCHMemberUpdate)updated {
+    [self.bridge.eventDispatcher sendAppEventWithName:@"chatClient:channel:member:userInfoUpdated"
+                                                 body: @{@"channelSid": channel.sid,
+                                                         @"updated": @(updated),
+                                                         }];
+    
 }
 
 - (void)chatClient:(TwilioChatClient *)client channel:(TCHChannel *)channel memberLeft:(TCHMember *)member {
@@ -184,17 +183,10 @@ RCT_REMAP_METHOD(setAttributes, attributes:(NSDictionary *)attributes attributes
 }
 
 - (void)chatClient:(TwilioChatClient *)client channel:(TCHChannel *)channel messageAdded:(TCHMessage *)message {
-  [self.bridge.eventDispatcher sendAppEventWithName:@"chatClient:channel:messageAdded"
+    NSString *sid = channel.sid;
+    [self.bridge.eventDispatcher sendAppEventWithName:@"chatClient:channel:messageAdded"
                                                body: @{
-                                                       @"channelSid": channel.sid,
-                                                       @"message": [RCTConvert TCHMessage:message]
-                                                       }];
-}
-
-- (void)chatClient:(TwilioChatClient *)client channel:(TCHChannel *)channel messageChanged:(TCHMessage *)message {
-  [self.bridge.eventDispatcher sendAppEventWithName:@"chatClient:channel:messageChanged"
-                                               body: @{
-                                                       @"channelSid": channel.sid,
+                                                       @"channelSid": sid,
                                                        @"message": [RCTConvert TCHMessage:message]
                                                        }];
 }
@@ -230,41 +222,22 @@ RCT_REMAP_METHOD(setAttributes, attributes:(NSDictionary *)attributes attributes
                                                        }];
 }
 
-- (void)chatClientToastSubscribed:(TwilioChatClient *)client {
-  [self.bridge.eventDispatcher sendAppEventWithName:@"chatClient:toastSubscribed"
-                                               body: RCTNullIfNil(nil)];
-}
+- (void)chatClient:(TwilioChatClient *)client notificationNewMessageReceivedForChannelSid:(nonnull NSString *)channelSid messageIndex:(NSUInteger)messageIndex {}
 
-- (void)chatClient:(TwilioChatClient *)client toastReceivedOnChannel:(TCHChannel *)channel message:(TCHMessage *)message {
-    [self.bridge.eventDispatcher sendAppEventWithName:@"chatClient:toastReceived"
-                                               body: @{
-                                                       @"channelSid": channel.sid,
-                                                       @"messageSid": message.sid
-                                                       }];
-}
+- (void)chatClient:(TwilioChatClient *)client notificationUpdatedBadgeCount:(NSUInteger)badgeCount {}
 
-- (void)chatClient:(TwilioChatClient *)client toastRegistrationFailedWithError:(TCHError *)error {
-  [self.bridge.eventDispatcher sendAppEventWithName:@"chatClient:toastFailed"
-                                               body:@{@"error": [error localizedDescription],
-                                                      @"userInfo": [error userInfo]
-                                                      }];
-}
-
-- (void)chatClient:(TwilioChatClient *)client userInfo:(TCHUser *)userInfo updated:(TCHUserUpdate)updated {
+- (void)chatClient:(TwilioChatClient *)client user:(TCHUser *)user updated:(TCHUserUpdate)updated {
   [self.bridge.eventDispatcher sendAppEventWithName:@"chatClient:userInfoUpdated"
                                                body: @{@"updated": @(updated),
-                                                       @"userInfo": [RCTConvert TCHUser:userInfo]
+                                                       @"userInfo": [RCTConvert TCHUser:user]
                                                        }];
 }
 
-- (void)chatClient:(TwilioChatClient *)client channel:(TCHChannel *)channel member:(TCHMember *)member userInfo:(TCHUser *)userInfo updated:(TCHUserUpdate)updated {
-    [self.bridge.eventDispatcher sendAppEventWithName:@"chatClient:channel:member:userInfoUpdated"
-                                                 body: @{@"channelSid": channel.sid,
-                                                         @"updated": @(updated),
-                                                         @"userInfo": [RCTConvert TCHUser:userInfo]
-                                                         }];
+- (void)chatClient:(TwilioChatClient *)client userSubscribed:(TCHUser *)user {}
 
-}
+- (void)chatClient:(TwilioChatClient *)client userUnsubscribed:(TCHUser *)user {}
+
+
 
 #pragma mark Enums
 

@@ -39,7 +39,8 @@ RCT_REMAP_METHOD(getLastConsumedMessageIndex, channelSid:(NSString *)channelSid 
 RCT_REMAP_METHOD(sendMessage, channelSid:(NSString *)channelSid body:(NSString *)body attributes:(NSDictionary<NSString *, id> *)attributes send_message_resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
     [self loadMessagesFromChannelSid:channelSid :^(TCHResult *result, TCHMessages *messages) {
         if (result.isSuccessful) {
-          TCHMessageOptions* options = [[TCHMessageOptions alloc] withBody:body];
+          TCHMessageOptions* options = [[TCHMessageOptions alloc] init];
+          [options withBody:body];
           void (^sendListener)(TCHResult * sendResult, TCHMessage * message) = ^(TCHResult *sendResult, TCHMessage * message) {
               if (sendResult.isSuccessful) {
                   resolve(@[@TRUE]);

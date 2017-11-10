@@ -77,8 +77,9 @@ RCT_ENUM_CONVERTER(TCHClientConnectionState,(@{
   if (!client) {
     return RCTNullIfNil(nil);
   }
+  NSDictionary* user = [self TCHUser:client.user];
   return @{
-           @"userInfo": [self TCHUser:client.user],
+           @"userInfo": user,
            @"synchronizationStatus": @(client.synchronizationStatus),
            @"version": client.version,
            @"isReachabilityEnabled": @(client.isReachabilityEnabled)
@@ -92,7 +93,7 @@ RCT_ENUM_CONVERTER(TCHClientConnectionState,(@{
   }
   return @{
            @"identity": userInfo.identity,
-           @"friendlyName": userInfo.friendlyName,
+           @"friendlyName": RCTNullIfNil(userInfo.friendlyName),
            @"attributes": RCTNullIfNil(userInfo.attributes),
            @"isOnline": @(userInfo.isOnline),
            @"isNotifiable": @(userInfo.isNotifiable)
@@ -104,15 +105,15 @@ RCT_ENUM_CONVERTER(TCHClientConnectionState,(@{
     return RCTNullIfNil(nil);
   }
   return @{
-           @"sid": message.sid,
-           @"index": message.index,
-           @"author": message.author,
-           @"body": message.body,
-           @"timestamp": message.timestamp,
+           @"sid": RCTNullIfNil(message.sid),
+           @"index": RCTNullIfNil(message.index),
+           @"author": RCTNullIfNil(message.author),
+           @"body": RCTNullIfNil(message.body),
+           @"timestamp": RCTNullIfNil(message.timestamp),
            @"timestampAsDate": @(message.timestampAsDate.timeIntervalSince1970 * 1000),
-           @"dateUpdated": message.dateUpdated,
+           @"dateUpdated": RCTNullIfNil(message.dateUpdated),
            @"dateUpdatedDate": @(message.dateUpdatedAsDate.timeIntervalSince1970 * 1000),
-           @"lastUpdatedBy": message.lastUpdatedBy,
+           @"lastUpdatedBy": RCTNullIfNil(message.lastUpdatedBy),
            @"attributes": RCTNullIfNil(message.attributes)
            };
 }
