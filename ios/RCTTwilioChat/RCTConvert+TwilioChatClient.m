@@ -133,17 +133,17 @@ RCT_ENUM_CONVERTER(TCHClientConnectionState,(@{
     return RCTNullIfNil(nil);
   }
   return @{
-           @"sid": channel.sid,
-           @"friendlyName": channel.friendlyName,
-           @"uniqueName": channel.uniqueName,
-           @"status": @(channel.status),
-           @"type": @(channel.type),
-           @"attributes": RCTNullIfNil(channel.attributes),
-           @"synchronizationStatus": @(channel.synchronizationStatus),
-           @"dateCreated": channel.dateCreated,
-           @"dateUpdated": channel.dateUpdated,
-           @"createdBy": channel.createdBy
-           };
+             @"sid": channel.sid,
+             @"friendlyName": RCTNullIfNil(channel.friendlyName),
+             @"uniqueName": channel.uniqueName,
+             @"status": @(channel.status),
+             @"type": @(channel.type),
+             @"attributes": RCTNullIfNil(channel.attributes),
+             @"synchronizationStatus": @(channel.synchronizationStatus),
+             @"dateCreated": RCTNullIfNil(channel.dateCreated),
+             @"dateUpdated": RCTNullIfNil(channel.dateUpdated),
+             @"createdBy": RCTNullIfNil(channel.createdBy)
+             };
 }
 
 + (NSDictionary *)TCHChannelDescriptor:(TCHChannelDescriptor *)channel {
