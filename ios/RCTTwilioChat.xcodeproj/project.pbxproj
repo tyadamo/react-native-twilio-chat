@@ -125,11 +125,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1DAE2D271D086CD600D3FE06 /* Build configuration list for PBXNativeTarget "RCTTwilioChat" */;
 			buildPhases = (
-				B8328303AC3C665D619ACECC /* [CP] Check Pods Manifest.lock */,
 				1DAE2D1A1D086CD600D3FE06 /* Sources */,
 				1DAE2D1B1D086CD600D3FE06 /* Frameworks */,
 				1DAE2D1C1D086CD600D3FE06 /* CopyFiles */,
-				F661CAD52C0B534280A10E65 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -170,39 +168,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		B8328303AC3C665D619ACECC /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		F661CAD52C0B534280A10E65 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RCTTwilioChat/Pods-RCTTwilioChat-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1DAE2D1A1D086CD600D3FE06 /* Sources */ = {
