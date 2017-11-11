@@ -55,7 +55,7 @@ public class RCTTwilioChatPaginator extends ReactContextBaseJavaModule {
             @Override
             public void onError(ErrorInfo errorInfo) {
                 super.onError(errorInfo);
-                promise.reject("request-next-page", "Error occurred while attempting to request the next page. Error Message: " + errorInfo.getErrorText());
+                promise.reject("request-next-page", "Error occurred while attempting to request the next page. Error Message: " + errorInfo.getMessage());
             }
 
             @Override
@@ -74,7 +74,7 @@ public class RCTTwilioChatPaginator extends ReactContextBaseJavaModule {
             @Override
             public void onError(ErrorInfo errorInfo) {
                 super.onError(errorInfo);
-                promise.reject("request-next-page", "Error occurred while attempting to request the next page. Error Message: " + errorInfo.getErrorText());
+                promise.reject("request-next-page", "Error occurred while attempting to request the next page. Error Message: " + errorInfo.getMessage());
             }
 
             @Override
@@ -93,7 +93,7 @@ public class RCTTwilioChatPaginator extends ReactContextBaseJavaModule {
             @Override
             public void onError(ErrorInfo errorInfo) {
                 super.onError(errorInfo);
-                promise.reject("request-next-page", "Error occurred while attempting to request the next page. Error Message: " + errorInfo.getErrorText());
+                promise.reject("request-next-page", "Error occurred while attempting to request the next page. Error Message: " + errorInfo.getMessage());
             }
 
             @Override

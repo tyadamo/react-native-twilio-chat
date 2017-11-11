@@ -9,15 +9,17 @@ import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.ReadableType;
 import com.facebook.react.bridge.ReadableMapKeySetIterator;
 
+import com.twilio.chat.CallbackListener;
 import com.twilio.chat.Channel;
 import com.twilio.chat.ChannelDescriptor;
 import com.twilio.chat.Channels;
 import com.twilio.chat.ChatClient;
-import com.twilio.chat.UserInfo;
+import com.twilio.chat.User;
 import com.twilio.chat.Message;
 import com.twilio.chat.Member;
 import com.twilio.chat.Paginator;
 import com.twilio.accessmanager.AccessManager;
+import com.twilio.chat.UserDescriptor;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -230,14 +232,14 @@ public class RCTConvert {
         return map;
     }
 
-    public static WritableMap UserInfo(UserInfo userInfo) {
+    public static WritableMap User(User user) {
         WritableMap map = Arguments.createMap();
 
-        map.putString("identity", userInfo.getIdentity());
-        map.putString("friendlyName", userInfo.getFriendlyName());
-        map.putMap("attributes", jsonToWritableMap(userInfo.getAttributes()));
-        map.putBoolean("isOnline", userInfo.isOnline());
-        map.putBoolean("isNotifiable", userInfo.isNotifiable());
+        map.putString("identity", user.getIdentity());
+        map.putString("friendlyName", user.getFriendlyName());
+        map.putMap("attributes", jsonToWritableMap(user.getAttributes()));
+        map.putBoolean("isOnline", user.isOnline());
+        map.putBoolean("isNotifiable", user.isNotifiable());
 
         return map;
     }
@@ -263,7 +265,6 @@ public class RCTConvert {
     public static WritableMap Member(Member member) {
         WritableMap map = Arguments.createMap();
 
-        map.putMap("userInfo", UserInfo(member.getUserInfo()));
         if (member.getLastConsumedMessageIndex() == null) {
             map.putNull("lastConsumedMessageIndex");
         }
@@ -283,7 +284,7 @@ public class RCTConvert {
     public static WritableMap ChatClient(ChatClient client) {
         WritableMap map = Arguments.createMap();
 
-        map.putMap("userInfo", UserInfo(client.getMyUserInfo()));
+        map.putMap("userInfo", User(client.getUsers().getMyUser()));
         map.putBoolean("isReachabilityEnabled", client.isReachabilityEnabled());
 
         return map;

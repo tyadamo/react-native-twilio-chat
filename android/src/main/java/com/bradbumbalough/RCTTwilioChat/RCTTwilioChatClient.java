@@ -19,7 +19,7 @@ import com.twilio.chat.CallbackListener;
 import com.twilio.chat.ErrorInfo;
 import com.twilio.chat.ChatClientListener;
 import com.twilio.chat.ChatClient;
-import com.twilio.chat.UserInfo;
+import com.twilio.chat.User;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -67,11 +67,6 @@ public class RCTTwilioChatClient extends ReactContextBaseJavaModule implements C
         clientSyncStatus.put("Failed",ChatClient.SynchronizationStatus.FAILED.toString());
         constants.put("TCHClientSynchronizationStatus", clientSyncStatus);
 
-        Map<String, String> clientSyncStrategy = new HashMap<>();
-        clientSyncStrategy.put("All",ChatClient.SynchronizationStrategy.ALL.toString());
-        clientSyncStrategy.put("ChannelsList",ChatClient.SynchronizationStrategy.CHANNELS_LIST.toString());
-        constants.put("TCHClientSynchronizationStrategy", clientSyncStrategy);
-
         Map<String, String> channelOption = new HashMap<>();
         channelOption.put("FriendlyName", "friendlyName");
         channelOption.put("UniqueName", "uniqueName");
@@ -95,12 +90,12 @@ public class RCTTwilioChatClient extends ReactContextBaseJavaModule implements C
         logLevel.put("Debug", Log.DEBUG);
         constants.put("TCHLogLevel", logLevel);
 
-        Map<String, String> userInfo = new HashMap<>();
-        userInfo.put("Attributes", UserInfo.UpdateReason.ATTRIBUTES.toString());
-        userInfo.put("FriendlyName", UserInfo.UpdateReason.FRIENDLY_NAME.toString());
-        userInfo.put("ReachabilityNotifiable", UserInfo.UpdateReason.REACHABILITY_NOTIFIABLE.toString());
-        userInfo.put("ReachabilityOnline", UserInfo.UpdateReason.REACHABILITY_ONLINE.toString());
-        constants.put("TCHUserInfoUpdate", userInfo);
+        Map<String, String> user = new HashMap<>();
+        user.put("Attributes", User.UpdateReason.ATTRIBUTES.toString());
+        user.put("FriendlyName", User.UpdateReason.FRIENDLY_NAME.toString());
+        user.put("ReachabilityNotifiable", User.UpdateReason.REACHABILITY_NOTIFIABLE.toString());
+        user.put("ReachabilityOnline", User.UpdateReason.REACHABILITY_ONLINE.toString());
+        constants.put("TCHUserInfoUpdate", user);
 
         return constants;
     }
@@ -139,7 +134,7 @@ public class RCTTwilioChatClient extends ReactContextBaseJavaModule implements C
             @Override
             public void onError(ErrorInfo errorInfo) {
                 super.onError(errorInfo);
-                promise.reject(errorCode, errorMessage + " Error Message: " + errorInfo.getErrorText());
+                promise.reject(errorCode, errorMessage + " Error Message: " + errorInfo.getMessage());
             }
 
             @Override
@@ -155,21 +150,11 @@ public class RCTTwilioChatClient extends ReactContextBaseJavaModule implements C
     public void createClient(String token, ReadableMap props, final Promise promise) {
         final RCTTwilioChatClient tmp = RCTTwilioChatClient.getInstance();
         ChatClient.Properties.Builder builder = new ChatClient.Properties.Builder();
-
-        if (props != null) {
-            if (props.hasKey("initialMessageCount")) {
-                builder.setInitialMessageCount(props.getInt("initialMessageCount"));
-            }
-            if (props.hasKey("synchronizationStrategy")) {
-                builder.setSynchronizationStrategy(ChatClient.SynchronizationStrategy.valueOf(props.getString("synchronizationStrategy")));
-            }
-        }
-
         ChatClient.create(reactContext, token, builder.createProperties(), new CallbackListener<ChatClient>() {
             @Override
             public void onError(ErrorInfo errorInfo) {
                 super.onError(errorInfo);
-                promise.reject("create-client-error", "Error occurred while attempting to create the client. Error Message: " + errorInfo.getErrorText());
+                promise.reject("create-client-error", "Error occurred while attempting to create the client. Error Message: " + errorInfo.getMessage());
             }
 
             @Override
@@ -182,9 +167,10 @@ public class RCTTwilioChatClient extends ReactContextBaseJavaModule implements C
     }
 
     @ReactMethod
-    public void userInfo(Promise promise) {
+    public void user(Promise promise) {
         RCTTwilioChatClient tmp = RCTTwilioChatClient.getInstance();
-        promise.resolve(RCTConvert.UserInfo(tmp.client.getMyUserInfo()));
+        User user = tmp.client.getUsers().getMyUser();
+        promise.resolve(RCTConvert.User(user));
     }
 
     @ReactMethod
@@ -261,7 +247,7 @@ public class RCTTwilioChatClient extends ReactContextBaseJavaModule implements C
             }
         };
 
-        tmp.client.getMyUserInfo().setFriendlyName(friendlyName, listener);
+        tmp.client.getUsers().getMyUser().setFriendlyName(friendlyName, listener);
     }
 
     @ReactMethod
@@ -282,7 +268,7 @@ public class RCTTwilioChatClient extends ReactContextBaseJavaModule implements C
             }
         };
 
-        tmp.client.getMyUserInfo().setAttributes(json, listener);
+        tmp.client.getUsers().getMyUser().setAttributes(json, listener);
     }
 
     // Listeners
@@ -293,22 +279,42 @@ public class RCTTwilioChatClient extends ReactContextBaseJavaModule implements C
     }
 
     @Override
-    public void onChannelAdd(final Channel channel) {
+    public void onChannelAdded(final Channel channel) {
         sendEvent("chatClient:channelAdded", RCTConvert.Channel(channel));
     }
 
     @Override
-    public void onChannelChange(Channel channel) {
+    public void onChannelJoined(final Channel channel) {
+        sendEvent("chatClient:channelAdded", RCTConvert.Channel(channel));
+    }
+
+    @Override
+    public void onChannelUpdated(final Channel channel, Channel.UpdateReason reason) {
         sendEvent("chatClient:channelChanged", RCTConvert.Channel(channel));
     }
 
     @Override
-    public void onChannelInvite(Channel channel) {
+    public void onUserSubscribed(final User user) {}
+
+    @Override
+    public void onUserUnsubscribed(final User user) {}
+
+    @Override
+    public void onNotificationSubscribed() {}
+
+    @Override
+    public void onNotificationFailed(final ErrorInfo info) {}
+
+    @Override
+    public void onNotification(String var1, String var2) {}
+
+    @Override
+    public void onChannelInvited(Channel channel) {
         sendEvent("chatClient:channelInvited", RCTConvert.Channel(channel));
     }
 
     @Override
-    public void onChannelDelete(Channel channel){
+    public void onChannelDeleted(Channel channel){
         sendEvent("chatClient:channelRemoved", RCTConvert.Channel(channel));
     }
 
@@ -329,40 +335,17 @@ public class RCTTwilioChatClient extends ReactContextBaseJavaModule implements C
     @Override
     public void onError(ErrorInfo errorInfo) {
         WritableMap map = Arguments.createMap();
-        map.putString("error",errorInfo.getErrorText());
+        map.putString("error",errorInfo.getMessage());
         map.putString("userInfo", errorInfo.toString());
 
         sendEvent("chatClient:errorReceived", map);
     }
 
     @Override
-    public void onToastFailed(ErrorInfo errorInfo) {
-        WritableMap map = Arguments.createMap();
-        map.putString("error",errorInfo.getErrorText());
-        map.putString("userInfo", errorInfo.toString());
-
-        sendEvent("chatClient:toastFailed", map);
-    }
-
-    @Override
-    public void onToastSubscribed() {
-        sendEvent("chatClient:toastSubscribed", "");
-    }
-
-    @Override
-    public void onToastNotification(String channelSid, String messageSid) {
-        WritableMap map = Arguments.createMap();
-        map.putString("channelSid", channelSid);
-        map.putString("messageSid", messageSid);
-
-        sendEvent("chatClient:toastReceived", map);
-    }
-
-    @Override
-    public void onUserInfoChange(UserInfo userInfo, UserInfo.UpdateReason updateReason) {
+    public void onUserUpdated(User user, User.UpdateReason updateReason) {
         WritableMap map = Arguments.createMap();
         map.putString("updated", updateReason.toString());
-        map.putMap("userInfo", RCTConvert.UserInfo(userInfo));
+        map.putMap("userInfo", RCTConvert.User(user));
         sendEvent("chatClient:userInfoUpdated", map);
     }
 }

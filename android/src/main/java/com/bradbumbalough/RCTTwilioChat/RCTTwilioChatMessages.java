@@ -76,9 +76,9 @@ public class RCTTwilioChatMessages extends ReactContextBaseJavaModule {
 
             @Override
             public void onSuccess(final Messages messages) {
-                final Message newMessage = messages.createMessage(body);
+                final Message.Options options = Message.options().withBody(body);
 
-                final StatusListener sendListener = new StatusListener() {
+                final CallbackListener<Message> sendListener = new CallbackListener<Message>() {
                   @Override
                   public void onError(ErrorInfo errorInfo) {
                       super.onError(errorInfo);
@@ -86,27 +86,17 @@ public class RCTTwilioChatMessages extends ReactContextBaseJavaModule {
                   }
 
                   @Override
-                  public void onSuccess() {
+                  public void onSuccess(Message message) {
                       promise.resolve(true);
                   }
                 };
 
                 if(attributes != null) {
                   final JSONObject json = RCTConvert.readableMapToJson(attributes);
-                  newMessage.setAttributes(json, new StatusListener() {
-                      @Override
-                      public void onSuccess() {
-                          messages.sendMessage(newMessage, sendListener);
-                      }
-
-                      @Override
-                      public void onError(ErrorInfo errorInfo) {
-                          super.onError(errorInfo);
-                          promise.reject("send-attributed-message-error","Error occurred while attempting to set attributes in sendAttributedMessage.");
-                      }
-                  });
+                    options.withAttributes(json);
+                    messages.sendMessage(options, sendListener);
                 } else {
-                  messages.sendMessage(body, sendListener);
+                  messages.sendMessage(options, sendListener);
                 }
             }
         });
