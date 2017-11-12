@@ -1,6 +1,6 @@
 {
   "name": "@pitch-me/react-native-twilio-chat",
-  "version": "0.1.0",
+  "version": "0.4.1",
   "description": "A React Native wrapper for the Twilio Chat iOS and Android SDKs",
   "main": "lib/index.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ccm-innovation/react-native-twilio-chat.git"
+    "url": "git+https://github.com/pitch-me-app/react-native-twilio-chat.git"
   },
   "keywords": [
     "react-native",
@@ -19,12 +19,12 @@
     "messaging",
     "chat"
   ],
-  "author": "Brad Bumbalough <bradley.bumbalough@gmail.com>",
+  "author": "Will Hogben <whogben@pitch.me>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ccm-innovation/react-native-twilio-chat/issues"
+    "url": "https://github.com/pitch-me-app/react-native-twilio-chat/issues"
   },
-  "homepage": "https://github.com/ccm-innovation/react-native-twilio-chat#readme",
+  "homepage": "https://github.com/pitch-me-app/react-native-twilio-chat#readme",
   "devDependencies": {
     "babel-eslint": "^7.1.1",
     "eslint": "^3.11.1",
