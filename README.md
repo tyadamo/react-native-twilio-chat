@@ -3,7 +3,7 @@
 
 >React Native wrapper for the Twilio Programmable Chat iOS and Android SDKs
 
-* Note - This project is built off of ccm-innovation/react-native-twilio-chat nut contains updated twilio chat packages and supported for later versions of react-native
+* Note - This project is built off of ccm-innovation/react-native-twilio-chat but contains updated twilio chat packages and support for later versions of react-native.
 
 ## Installation
 ```
