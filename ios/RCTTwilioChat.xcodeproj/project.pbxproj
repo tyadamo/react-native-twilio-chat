@@ -15,19 +15,14 @@
 		1DAE2D391D086CFD00D3FE06 /* RCTTwilioChatClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DAE2D311D086CFD00D3FE06 /* RCTTwilioChatClient.m */; };
 		1DAE2D3A1D086CFD00D3FE06 /* RCTTwilioChatMembers.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DAE2D331D086CFD00D3FE06 /* RCTTwilioChatMembers.m */; };
 		1DAE2D3B1D086CFD00D3FE06 /* RCTTwilioChatMessages.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DAE2D351D086CFD00D3FE06 /* RCTTwilioChatMessages.m */; };
+		96D25EF51FBA372F00FA5FD7 /* RCTConvert+TwilioChatClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DAE2D2A1D086CFD00D3FE06 /* RCTConvert+TwilioChatClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		96D25EF61FBA372F00FA5FD7 /* RCTTwilioAccessManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DAE2D2C1D086CFD00D3FE06 /* RCTTwilioAccessManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		96D25EF71FBA372F00FA5FD7 /* RCTTwilioChatChannels.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DAE2D2E1D086CFD00D3FE06 /* RCTTwilioChatChannels.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		96D25EF81FBA372F00FA5FD7 /* RCTTwilioChatClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DAE2D301D086CFD00D3FE06 /* RCTTwilioChatClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		96D25EF91FBA372F00FA5FD7 /* RCTTwilioChatMembers.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DAE2D321D086CFD00D3FE06 /* RCTTwilioChatMembers.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		96D25EFA1FBA372F00FA5FD7 /* RCTTwilioChatPaginator.h in Headers */ = {isa = PBXBuildFile; fileRef = 1D6F099A1DF1EBE100611A19 /* RCTTwilioChatPaginator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		96D25EFB1FBA372F00FA5FD7 /* RCTTwilioChatMessages.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DAE2D341D086CFD00D3FE06 /* RCTTwilioChatMessages.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		1DAE2D1C1D086CD600D3FE06 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "include/$(PRODUCT_NAME)";
-			dstSubfolderSpec = 16;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		1D6F099A1DF1EBE100611A19 /* RCTTwilioChatPaginator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTTwilioChatPaginator.h; sourceTree = "<group>"; };
@@ -120,6 +115,23 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		96D25EF41FBA372300FA5FD7 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				96D25EF51FBA372F00FA5FD7 /* RCTConvert+TwilioChatClient.h in Headers */,
+				96D25EF61FBA372F00FA5FD7 /* RCTTwilioAccessManager.h in Headers */,
+				96D25EF71FBA372F00FA5FD7 /* RCTTwilioChatChannels.h in Headers */,
+				96D25EF81FBA372F00FA5FD7 /* RCTTwilioChatClient.h in Headers */,
+				96D25EF91FBA372F00FA5FD7 /* RCTTwilioChatMembers.h in Headers */,
+				96D25EFA1FBA372F00FA5FD7 /* RCTTwilioChatPaginator.h in Headers */,
+				96D25EFB1FBA372F00FA5FD7 /* RCTTwilioChatMessages.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
 		1DAE2D1D1D086CD600D3FE06 /* RCTTwilioChat */ = {
 			isa = PBXNativeTarget;
@@ -127,7 +139,7 @@
 			buildPhases = (
 				1DAE2D1A1D086CD600D3FE06 /* Sources */,
 				1DAE2D1B1D086CD600D3FE06 /* Frameworks */,
-				1DAE2D1C1D086CD600D3FE06 /* CopyFiles */,
+				96D25EF41FBA372300FA5FD7 /* Headers */,
 			);
 			buildRules = (
 			);
