@@ -87,21 +87,21 @@ RCT_ENUM_CONVERTER(TCHClientConnectionState,(@{
 }
 
 
-+ (NSDictionary *)TCHUser:(TCHUser *)userInfo {
-  if (!userInfo) {
++ (NSDictionary *)TCHUser:(TCHUser *)user {
+  if (!user) {
     return RCTNullIfNil(nil);
   }
   return @{
-           @"identity": userInfo.identity,
-           @"friendlyName": RCTNullIfNil(userInfo.friendlyName),
-           @"attributes": RCTNullIfNil(userInfo.attributes),
-           @"isOnline": @(userInfo.isOnline),
-           @"isNotifiable": @(userInfo.isNotifiable)
+           @"identity": user.identity,
+           @"friendlyName": RCTNullIfNil(user.friendlyName),
+           @"attributes": RCTNullIfNil(user.attributes),
+           @"isOnline": @(user.isOnline),
+           @"isNotifiable": @(user.isNotifiable)
            };
 }
 
 + (NSDictionary *)TCHUserDescriptor:(TCHUserDescriptor *)user {
-    if (!userInfo) {
+    if (!user) {
         return RCTNullIfNil(nil);
     }
     return @{
