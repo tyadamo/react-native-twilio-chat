@@ -277,7 +277,7 @@ public class RCTConvert {
     public static WritableMap Member(final Member member) {
         WritableMap map = Arguments.createMap();
 
-        map.putString("identity", member.getIdentity())
+        map.putString("identity", member.getIdentity());
         if (member.getLastConsumedMessageIndex() == null) {
             map.putNull("lastConsumedMessageIndex");
         }
