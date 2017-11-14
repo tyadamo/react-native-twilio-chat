@@ -48,22 +48,23 @@ RCT_EXPORT_METHOD(updateToken:(NSString *)token) {
     [[_client client] updateToken:token completion:NULL];
 }
 
-RCT_REMAP_METHOD(user, identity:(NSString*)identity user_resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+RCT_REMAP_METHOD(user, user_resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
   RCTTwilioChatClient *_client = [RCTTwilioChatClient sharedManager];
   resolve([RCTConvert TCHUser:_client.client.user]);
 }
 
-RCT_REMAP_METHOD(getUser, user_resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+RCT_REMAP_METHOD(getUser, identity:(NSString*)identity user_resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
   RCTTwilioChatClient *_client = [RCTTwilioChatClient sharedManager];
-    [client.users userDescriptorWithIdentity:identity completion:^(TCHResult *result, TCHUserDescriptor * user) {
+    [_client.client.users userDescriptorWithIdentity:identity completion:^(TCHResult *result, TCHUserDescriptor * user) {
         if (result.isSuccessful) {
             resolve([RCTConvert TCHUserDescriptor:user]);
         }
         else {
             reject(@"set-friendly-name-error", @"Error occured while attempting to set friendly name for the user.", result.error);
         }
-    }]
+    }];
 }
+
 
 RCT_EXPORT_METHOD(synchronizationStatus:(RCTResponseSenderBlock)callback) {
   RCTTwilioChatClient *_client = [RCTTwilioChatClient sharedManager];
