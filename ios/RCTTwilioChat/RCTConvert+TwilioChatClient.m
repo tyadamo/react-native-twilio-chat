@@ -100,6 +100,19 @@ RCT_ENUM_CONVERTER(TCHClientConnectionState,(@{
            };
 }
 
++ (NSDictionary *)TCHUserDescriptor:(TCHUserDescriptor *)user {
+    if (!userInfo) {
+        return RCTNullIfNil(nil);
+    }
+    return @{
+             @"identity": user.identity,
+             @"friendlyName": RCTNullIfNil(user.friendlyName),
+             @"attributes": RCTNullIfNil(user.attributes),
+             @"isOnline": @(user.isOnline),
+             @"isNotifiable": @(user.isNotifiable)
+             };
+}
+
 + (NSDictionary *)TCHMessage:(TCHMessage *)message {
   if (!message) {
     return RCTNullIfNil(nil);
@@ -123,6 +136,7 @@ RCT_ENUM_CONVERTER(TCHClientConnectionState,(@{
     return RCTNullIfNil(nil);
   }
   return @{
+           @"identity": member.identity,
            @"lastConsumedMessageIndex": RCTNullIfNil(member.lastConsumedMessageIndex),
            @"lastConsumptionTimestamp": RCTNullIfNil(member.lastConsumptionTimestamp)
            };

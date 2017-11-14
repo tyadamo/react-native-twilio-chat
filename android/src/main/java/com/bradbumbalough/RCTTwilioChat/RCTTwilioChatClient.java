@@ -20,6 +20,7 @@ import com.twilio.chat.ErrorInfo;
 import com.twilio.chat.ChatClientListener;
 import com.twilio.chat.ChatClient;
 import com.twilio.chat.User;
+import com.twilio.chat.UserDescriptor;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -171,6 +172,22 @@ public class RCTTwilioChatClient extends ReactContextBaseJavaModule implements C
         RCTTwilioChatClient tmp = RCTTwilioChatClient.getInstance();
         User user = tmp.client.getUsers().getMyUser();
         promise.resolve(RCTConvert.User(user));
+    }
+
+    @ReactMethod
+    public void getUser(String identity, final Promise promise) {
+        RCTTwilioChatClient.getInstance().client.getUsers().getUserDescriptor(identity, new CallbackListener<UserDescriptor>() {
+            @Override
+            public void onError(ErrorInfo errorInfo) {
+                super.onError(errorInfo);
+                promise.reject("get-user-error", "Error occurred while attempting to get user.");
+            }
+
+            @Override
+            public void onSuccess(UserDescriptor userDescriptor) {
+                promise.resolve(RCTConvert.UserDescriptor(userDescriptor));
+            }
+        });
     }
 
     @ReactMethod

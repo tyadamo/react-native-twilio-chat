@@ -12,6 +12,7 @@ import com.twilio.chat.Members;
 import com.twilio.chat.CallbackListener;
 import com.twilio.chat.Channel;
 import com.twilio.chat.Paginator;
+import com.twilio.chat.UserDescriptor;
 
 import java.sql.Array;
 import java.util.ArrayList;

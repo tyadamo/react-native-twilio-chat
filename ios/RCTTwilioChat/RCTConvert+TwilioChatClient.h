@@ -25,7 +25,8 @@
 
 + (NSDictionary *)TCHChannel:(TCHChannel *)channel;
 + (NSDictionary *)TCHChannelDescriptor:(TCHChannelDescriptor *)channel;
-+ (NSDictionary *)TCHUser:(TCHUser *)userInfo;
++ (NSDictionary *)TCHUser:(TCHUser *)user;
++ (NSDictionary *)TCHUserDescriptor:(TCHUserDescriptor *)user;
 + (NSDictionary *)TCHMember:(TCHMember *)member;
 + (NSDictionary *)TCHMessage:(TCHMessage *)message;
 

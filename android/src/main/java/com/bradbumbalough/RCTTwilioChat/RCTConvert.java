@@ -244,6 +244,18 @@ public class RCTConvert {
         return map;
     }
 
+    public static WritableMap UserDescriptor(UserDescriptor user) {
+        WritableMap map = Arguments.createMap();
+
+        map.putString("identity", user.getIdentity());
+        map.putString("friendlyName", user.getFriendlyName());
+        map.putMap("attributes", jsonToWritableMap(user.getAttributes()));
+        map.putBoolean("isOnline", user.isOnline());
+        map.putBoolean("isNotifiable", user.isNotifiable());
+
+        return map;
+    }
+
     public static WritableMap Message(Message message) {
         WritableMap map = Arguments.createMap();
 
@@ -262,9 +274,10 @@ public class RCTConvert {
         return map;
     }
 
-    public static WritableMap Member(Member member) {
+    public static WritableMap Member(final Member member) {
         WritableMap map = Arguments.createMap();
 
+        map.putString("identity", member.getIdentity())
         if (member.getLastConsumedMessageIndex() == null) {
             map.putNull("lastConsumedMessageIndex");
         }
@@ -320,8 +333,9 @@ public class RCTConvert {
         return array;
     }
 
-    public static WritableArray Members(ArrayList<Member> members) {
+    public static WritableArray Members(ArrayList<Member> members, CallbackListener<WritableArray> callbackListener) {
         WritableArray array = Arguments.createArray();
+
 
         for (Member m : members) {
             array.pushMap(Member(m));
@@ -351,10 +365,6 @@ public class RCTConvert {
             case "ChannelDescriptor":
                 _paginator.putArray("items", ChannelDescriptors(((Paginator<ChannelDescriptor>)paginator).getItems()));
                 _paginator.putBoolean("hasNextPage", ((Paginator<ChannelDescriptor>)paginator).hasNextPage());
-                break;
-            case "Member":
-                _paginator.putArray("items", Members(((Paginator<Member>)paginator).getItems()));
-                _paginator.putBoolean("hasNextPage", ((Paginator<Member>)paginator).hasNextPage());
                 break;
         }
         map.putString("sid", sid);
