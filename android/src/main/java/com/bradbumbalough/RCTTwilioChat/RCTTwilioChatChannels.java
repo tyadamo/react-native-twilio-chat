@@ -471,7 +471,7 @@ public class RCTTwilioChatChannels extends ReactContextBaseJavaModule {
 
                     @Override
                     public void onSuccess(Long count) {
-                        promise.resolve(count);
+                        promise.resolve(count.intValue());
                     }
                 });
             }

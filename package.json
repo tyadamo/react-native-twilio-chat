@@ -1,10 +1,11 @@
 {
   "name": "@pitch-me/react-native-twilio-chat",
-  "version": "0.4.8",
+  "version": "0.4.11",
   "description": "A React Native wrapper for the Twilio Chat iOS and Android SDKs",
   "main": "lib/index.js",
   "scripts": {
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "copy-to-mobile": "cpx \"./**/*.*\" ../mobile/node_modules/@pitch-me/react-native-twilio-chat --verbose"
   },
   "repository": {
     "type": "git",
@@ -27,6 +28,7 @@
   "homepage": "https://github.com/pitch-me-app/react-native-twilio-chat#readme",
   "devDependencies": {
     "babel-eslint": "^7.1.1",
+    "cpx": "^1.5.0",
     "eslint": "^3.11.1",
     "eslint-config-airbnb": "^13.0.0",
     "eslint-plugin-import": "^2.2.0",
