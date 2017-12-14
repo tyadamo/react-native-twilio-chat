@@ -12,9 +12,12 @@ import com.twilio.chat.Message;
 import com.twilio.chat.Channel;
 import com.twilio.chat.StatusListener;
 import com.twilio.chat.CallbackListener;
+import com.twilio.chat.ChannelListener;
+import com.twilio.chat.Member;
 
 import java.util.List;
 import java.util.Map;
+import java.util.ArrayList;
 
 import org.json.JSONObject;
 
@@ -25,7 +28,6 @@ public class RCTTwilioChatMessages extends ReactContextBaseJavaModule {
         return "TwilioChatMessages";
     }
 
-
     public RCTTwilioChatMessages(ReactApplicationContext reactContext) {
         super(reactContext);
     }
@@ -34,7 +36,43 @@ public class RCTTwilioChatMessages extends ReactContextBaseJavaModule {
         RCTTwilioChatClient.getInstance().client.getChannels().getChannel(sid, new CallbackListener<Channel>() {
             @Override
             public void onSuccess(final Channel channel) {
-                callbackListener.onSuccess(channel.getMessages());
+                if ( channel.getSynchronizationStatus() == Channel.SynchronizationStatus.ALL ) {
+                    callbackListener.onSuccess(channel.getMessages());
+                } else {
+                    ChannelListener listener = new ChannelListener() {
+
+                        @Override
+                        public void onMessageAdded(Message member) {}
+
+                        @Override
+                        public void onMessageUpdated(Message message, Message.UpdateReason reason) {}
+
+                        @Override
+                        public void onMessageDeleted(Message message) {}
+
+                        @Override
+                        public void onMemberAdded(Member member) {}
+
+                        @Override
+                        public void onMemberUpdated(Member member, Member.UpdateReason reason) {}
+
+                        @Override
+                        public void onMemberDeleted(Member member) {}
+
+                        @Override
+                        public void onTypingStarted(Member member) {}
+
+                        @Override
+                        public void onTypingEnded(Member member) {}
+
+                        @Override
+                        public void onSynchronizationChanged(Channel channel) {
+                            if ( channel.getSynchronizationStatus() == Channel.SynchronizationStatus.ALL ) {
+                                callbackListener.onSuccess(channel.getMessages());
+                            }
+                        }
+                    };
+                }
             }
 
             @Override
@@ -150,18 +188,24 @@ public class RCTTwilioChatMessages extends ReactContextBaseJavaModule {
             }
 
             public void onSuccess(Messages messages) {
-                messages.getLastMessages(count, new CallbackListener<List<Message>>() {
-                    @Override
-                    public void onError(ErrorInfo errorInfo) {
-                        super.onError(errorInfo);
-                        promise.reject("get-last-messages-error","Error occurred while attempting to getLastMessages.");
-                    }
+                if ( messages == null ) {
+                    List<Message> _messages = new ArrayList<Message>();
+                    promise.resolve(RCTConvert.Messages(_messages));
+                }
+                else {
+                    messages.getLastMessages(count, new CallbackListener<List<Message>>() {
+                        @Override
+                        public void onError(ErrorInfo errorInfo) {
+                            super.onError(errorInfo);
+                            promise.reject("get-last-messages-error", "Error occurred while attempting to getLastMessages.");
+                        }
 
-                    @Override
-                    public void onSuccess(List<Message> _messages) {
-                        promise.resolve(RCTConvert.Messages(_messages));
-                    }
-                });
+                        @Override
+                        public void onSuccess(List<Message> _messages) {
+                            promise.resolve(RCTConvert.Messages(_messages));
+                        }
+                    });
+                }
             }
         });
     }
