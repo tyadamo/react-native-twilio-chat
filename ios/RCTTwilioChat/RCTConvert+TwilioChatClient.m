@@ -147,16 +147,16 @@ RCT_ENUM_CONVERTER(TCHClientConnectionState,(@{
     return RCTNullIfNil(nil);
   }
   return @{
-               @“sid”: channel.sid,
-               @“friendlyName”: RCTNullIfNil(channel.friendlyName),
-               @“uniqueName”: RCTNullIfNil(channel.uniqueName),
-               @“status”: RCTNullIfNil(@(channel.status)),
-               @“type”: RCTNullIfNil(@(channel.type)),
-               @“attributes”: RCTNullIfNil(channel.attributes),
-               @“synchronizationStatus”: @(channel.synchronizationStatus),
-               @“dateCreated”: RCTNullIfNil(channel.dateCreated),
-               @“dateUpdated”: RCTNullIfNil(channel.dateUpdated),
-               @“createdBy”: RCTNullIfNil(channel.createdBy)
+               @"sid": channel.sid,
+               @“friendlyName": RCTNullIfNil(channel.friendlyName),
+               @“uniqueName": RCTNullIfNil(channel.uniqueName),
+               @“status": RCTNullIfNil(@(channel.status)),
+               @“type": RCTNullIfNil(@(channel.type)),
+               @“attributes": RCTNullIfNil(channel.attributes),
+               @“synchronizationStatus": @(channel.synchronizationStatus),
+               @“dateCreated": RCTNullIfNil(channel.dateCreated),
+               @“dateUpdated": RCTNullIfNil(channel.dateUpdated),
+               @“createdBy": RCTNullIfNil(channel.createdBy)
                };
 }
 
