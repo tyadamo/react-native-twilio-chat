@@ -23,6 +23,12 @@ RCT_EXPORT_MODULE();
 
 #pragma mark Channel Methods
 
+RCT_REMAP_METHOD(subscribedChannels, subscribedChannels_resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
+    TwilioChatClient *client = [[RCTTwilioChatClient sharedManager] client];
+    
+    resolve([RCTConvert TCHChannels:client.channelsList.subscribedChannels]);
+}
+
 RCT_REMAP_METHOD(getUserChannels, userChannels_resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject) {
     TwilioChatClient *client = [[RCTTwilioChatClient sharedManager] client];
     [[client channelsList] userChannelDescriptorsWithCompletion:^(TCHResult *result, TCHChannelDescriptorPaginator *paginator) {
