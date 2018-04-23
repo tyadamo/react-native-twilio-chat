@@ -168,6 +168,11 @@ public class RCTTwilioChatChannels extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void subscribedChannels(final Promise promise) {
+        promise.resolve(RCTConvert.Channels(channels().getSubscribedChannels()));            
+    }
+
+    @ReactMethod
     public void getUserChannels(final Promise promise) {
         channels().getUserChannelsList(new CallbackListener<Paginator<ChannelDescriptor>>() {
             @Override
@@ -187,7 +192,7 @@ public class RCTTwilioChatChannels extends ReactContextBaseJavaModule {
                     });
                 }
                 String uuid = RCTTwilioChatPaginator.setPaginator(channelPaginator);
-                promise.resolve(RCTConvert.Paginator(channelPaginator, uuid, "Channel"));
+                promise.resolve(RCTConvert.Paginator(channelPaginator, uuid, "ChannelDescriptor"));
             }
         });
     }
