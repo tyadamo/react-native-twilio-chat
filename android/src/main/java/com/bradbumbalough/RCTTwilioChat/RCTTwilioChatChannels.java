@@ -23,6 +23,7 @@ import com.twilio.chat.CallbackListener;
 import com.twilio.chat.Paginator;
 
 import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Map;
 import java.lang.Integer;
 
@@ -169,7 +170,9 @@ public class RCTTwilioChatChannels extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void subscribedChannels(final Promise promise) {
-        promise.resolve(RCTConvert.Channels(channels().getSubscribedChannels()));            
+        ArrayList<Channel> channelList = new ArrayList<Channel>(channels().getSubscribedChannels());
+
+        promise.resolve(RCTConvert.Channels(channelList));            
     }
 
     @ReactMethod
