@@ -191,7 +191,7 @@ public class RCTTwilioChatClient extends ReactContextBaseJavaModule implements C
     }
 
     @ReactMethod
-    public void register(String token) {
+    public void register(String token, String type) {
         RCTTwilioChatClient tmp = RCTTwilioChatClient.getInstance();
 
         StatusListener listener = new StatusListener() {
@@ -205,11 +205,15 @@ public class RCTTwilioChatClient extends ReactContextBaseJavaModule implements C
 
             }
         };
-        tmp.client.registerGCMToken(token, listener);
+        if (type == 'fcm') {
+            tmp.client.registerFCMToken(token, listener);
+        } else {
+            tmp.client.registerGCMToken(token, listener);
+        }
     }
 
     @ReactMethod
-    public void unregister(String token) {
+    public void unregister(String token, String type) {
         RCTTwilioChatClient tmp = RCTTwilioChatClient.getInstance();
 
         StatusListener listener = new StatusListener() {
@@ -223,7 +227,11 @@ public class RCTTwilioChatClient extends ReactContextBaseJavaModule implements C
 
             }
         };
-        tmp.client.unregisterGCMToken(token, listener);
+        if (type == 'fcm') {
+            tmp.client.unregisterFCMToken(token, listener);
+        } else {
+            tmp.client.unregisterGCMToken(token, listener);
+        }
     }
 
     @ReactMethod
