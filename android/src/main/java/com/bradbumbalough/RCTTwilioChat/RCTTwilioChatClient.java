@@ -205,7 +205,7 @@ public class RCTTwilioChatClient extends ReactContextBaseJavaModule implements C
 
             }
         };
-
+        System.out.println(token);
         tmp.client.registerFCMToken(token, listener);
     }
 
