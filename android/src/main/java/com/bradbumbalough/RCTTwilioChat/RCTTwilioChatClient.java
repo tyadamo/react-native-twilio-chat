@@ -198,16 +198,18 @@ public class RCTTwilioChatClient extends ReactContextBaseJavaModule implements C
             @Override
             public void onError(ErrorInfo errorInfo) {
                 super.onError(errorInfo);
-                System.out.println(errorInfo.toString());
             }
 
             @Override
             public void onSuccess() {
-                System.out.println("success");
+
             }
         };
-        System.out.println(token);
-        tmp.client.registerFCMToken(token, listener);
+        if (type == "fcm") {
+            tmp.client.registerFCMToken(token, listener);
+        } else {
+            tmp.client.registerGCMToken(token, listener);
+        }
     }
 
     @ReactMethod
