@@ -319,19 +319,26 @@ public class RCTTwilioChatClient extends ReactContextBaseJavaModule implements C
     }
 
     @Override
-    public void onUserSubscribed(final User user) {}
+    public void onUserSubscribed(final User user) {
+       System.out.println("chatClient:onUserSubscribed");
+    }
 
     @Override
     public void onUserUnsubscribed(final User user) {}
 
     @Override
-    public void onNotificationSubscribed() {}
+    public void onNotificationSubscribed() {
+       System.out.println("chatClient:notificationSubscribed");
+       sendEvent("chatClient:notificationSubscribed");
+    }
 
     @Override
     public void onNotificationFailed(final ErrorInfo info) {}
 
     @Override
-    public void onNotification(String var1, String var2) {}
+    public void onNotification(String var1, String var2) {
+       System.out.println("onNotification");
+    }
 
     @Override
     public void onChannelInvited(Channel channel) {
