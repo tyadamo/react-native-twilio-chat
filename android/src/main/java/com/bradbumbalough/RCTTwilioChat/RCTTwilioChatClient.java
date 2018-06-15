@@ -329,7 +329,7 @@ public class RCTTwilioChatClient extends ReactContextBaseJavaModule implements C
     @Override
     public void onNotificationSubscribed() {
        System.out.println("chatClient:notificationSubscribed");
-       sendEvent("chatClient:notificationSubscribed");
+       // sendEvent("chatClient:notificationSubscribed");
     }
 
     @Override
@@ -338,6 +338,8 @@ public class RCTTwilioChatClient extends ReactContextBaseJavaModule implements C
     @Override
     public void onNotification(String var1, String var2) {
        System.out.println("onNotification");
+       System.out.println("var1");
+       System.out.println("var2");
     }
 
     @Override
