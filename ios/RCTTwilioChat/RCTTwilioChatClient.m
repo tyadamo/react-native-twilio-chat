@@ -65,6 +65,13 @@ RCT_REMAP_METHOD(getUser, identity:(NSString*)identity user_resolver:(RCTPromise
     }];
 }
 
+RCT_REMAP_METHOD(registerNotificationToken, deviceToken:(NSString*)token resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject){
+    RCTTwilioChatClient *_client = [RCTTwilioChatClient sharedManager];
+    [[_client client] registerWithNotificationToken: token completion:^(TCHResult * _Nonnull result) {
+        resolve(result);
+    }];
+}
+
 
 RCT_EXPORT_METHOD(synchronizationStatus:(RCTResponseSenderBlock)callback) {
   RCTTwilioChatClient *_client = [RCTTwilioChatClient sharedManager];
