@@ -242,6 +242,46 @@ public class RCTTwilioChatClient extends ReactContextBaseJavaModule implements C
 //        tmp.client.handleNotification(map);
     }
 
+
+    @ReactMethod
+    public void registerNotificationToken(String token, final Promise promise) {
+        RCTTwilioChatClient tmp = RCTTwilioChatClient.getInstance();
+
+        StatusListener listener = new StatusListener() {
+            @Override
+            public void onError(ErrorInfo errorInfo) {
+                super.onError(errorInfo);
+                promise.reject("set-registerFcmPushToken-error", "Error occurred while attempting to register FCM Token on user.");
+            }
+
+            @Override
+            public void onSuccess() {
+                promise.resolve(true);
+            }
+        };
+
+        tmp.client.registerFCMToken(token, listener);
+    }
+    @ReactMethod
+    public void unRegisterNotificationToken(String token, final Promise promise) {
+        RCTTwilioChatClient tmp = RCTTwilioChatClient.getInstance();
+
+        StatusListener listener = new StatusListener() {
+            @Override
+            public void onError(ErrorInfo errorInfo) {
+                super.onError(errorInfo);
+                promise.reject("set-unRegisterFcmPushToken-error", "Error occurred while attempting to register FCM Token on user.");
+            }
+
+            @Override
+            public void onSuccess() {
+                promise.resolve(true);
+            }
+        };
+
+        tmp.client.unregisterFCMToken(token, listener);
+    }
+
     @ReactMethod
     public void shutdown() {
         RCTTwilioChatClient tmp = RCTTwilioChatClient.getInstance();
