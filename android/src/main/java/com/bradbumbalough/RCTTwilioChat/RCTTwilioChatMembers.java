@@ -1,10 +1,13 @@
 package com.bradbumbalough.RCTTwilioChat;
 
+import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.Promise;
 
+import com.facebook.react.bridge.WritableArray;
+import com.facebook.react.bridge.WritableMap;
 import com.twilio.chat.Member;
 import com.twilio.chat.StatusListener;
 import com.twilio.chat.ErrorInfo;
@@ -48,7 +51,7 @@ public class RCTTwilioChatMembers extends ReactContextBaseJavaModule {
 	}
 
 	@ReactMethod
-	public void getMembers(String channelSid, final Promise promise) {
+	public void getMembers(final String channelSid, final Promise promise) {
 		loadMembersFromChannelSid(channelSid, new CallbackListener<Members>() {
 			@Override
 			public void onError(ErrorInfo errorInfo) {
@@ -58,12 +61,19 @@ public class RCTTwilioChatMembers extends ReactContextBaseJavaModule {
 
 			@Override
 			public void onSuccess(Members members) {
+
+				WritableMap res = Arguments.createMap();
+
+				res.putString("sid", channelSid);
+				res.putString("type", "members");
+
 				List<Member> list = members.getMembersList();
-				Object[] objectList = new Object[list.size()];
+				WritableArray objectList = Arguments.createArray();
 				for ( int i = 0; i < list.size(); i++) {
-					objectList[i] = RCTConvert.Member(list.get(i));
+					objectList.pushMap( RCTConvert.Member(list.get(i)));
 				}
-				promise.resolve(objectList);
+				res.putArray("paginator", objectList);
+				promise.resolve(res);
 			}
 		});
 	}
